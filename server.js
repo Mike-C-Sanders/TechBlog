@@ -10,10 +10,10 @@ const sequelize = require('./config/connection');
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
 
 const app = express();
-//default port 3001 or use a delpoyable port such as heroku 
+//default port 3001 or use a deployable port such as heroku 
 const PORT = process.env.PORT || 3001;
 
-const hbs = exphbs.create({helpers});
+const hbs = exphbs.create({});
 
 const sess ={
     secret: 'Super secret secret',
@@ -25,7 +25,7 @@ const sess ={
     })
 };
 
-app.use(session(use));
+// app.use(session(sess));
 
 app.engine('handlebars', hbs.engine);
 app.set('view engine', 'handlebars');
