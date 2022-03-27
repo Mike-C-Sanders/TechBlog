@@ -16,6 +16,11 @@ Comment.init(
             type: DataTypes.STRING,
             allowNull: false,
         },
+        comment_date:{
+            type: DataTypes.DATE,
+            allowNull: false,
+        },
+        //identify who wrote the comment
         user_id: {
             type: DataTypes.INTEGER,
             references: {
@@ -23,6 +28,7 @@ Comment.init(
                 key: 'id',
             }
         },
+        //post ID reference to reference the related blog post 
         post_id:{
             type: DataTypes.INTEGER,
             references: {
@@ -35,6 +41,7 @@ Comment.init(
         sequelize,
         timestamps: false,
         underscored: true,
+        freezeTableName: false,
         modelName: 'comment',
     }
 );
