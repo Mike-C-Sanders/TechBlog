@@ -1,4 +1,4 @@
-//this is for the user's posted content routes
+//this is for the user's posted content routes to update/create/delete
 const router = require('express').Router();
 const {Post} = require('../../models/index');
 //authorization function
@@ -11,10 +11,16 @@ router.post('/', withAuth, async (req, res) =>{
             ...req.body,
             user_id: req.session.user_id,
         });
+        //check if the id exists
+        if(!newPost){
+            res.status(404).json({message: `No post found with this id.`});
+            return;
+        }
+
         res.status(200).json(newPost);
 
     }catch(err){
-        res.status(400).json(err);
+        res.status(500).json(err);
 
     }
 });
@@ -30,11 +36,15 @@ router.put('/:id', withAuth, async(req, res) =>{
             },
             
         }, 
-        //update the posted content
+        //update the posted content title and the content
         {
             title: req.body.title,
             content: req.body.content,
         });
+        if(!updatePost){
+            res.status(404).json({message: `No post found with this id.`});
+            return;
+        }
         res.status(200).json(updatePost);
     }catch(err){
         res.status(400).json(err);
