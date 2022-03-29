@@ -17,6 +17,7 @@ router.post('/', withAuth, async(req, res) => {
     }
 });
 
+//update a comment route
 router.post('/:id', withAuth, async(req, res) =>{
     try{
         const updateComment = await Comment.update({
@@ -39,4 +40,24 @@ router.post('/:id', withAuth, async(req, res) =>{
     }catch(err){
         res.status(500).json(err);
     }
-})
+});
+
+//delete a comment route
+router.delete('/:id', withAuth, async (req, res) =>{
+    try{
+        const commentData = await Comment.delete({
+            where:{
+                id: req.params.id,
+                user_id: req.session.user_id,
+            }
+        });
+        if(!commentData){
+            res.status(404).json({message: `No comment found with the id`});
+        }
+        res.status(200).json(commentData);
+    }catch(err){
+        res.status(400).json(err);
+    }
+});
+
+module.exports = router;
